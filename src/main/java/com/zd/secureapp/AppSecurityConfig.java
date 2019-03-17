@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 
 
@@ -72,6 +73,9 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	*/
 	
+	@Autowired
+	private MyBasicAuthenticationEntryPoint authenticationEntryPoint;
+	
 	@Bean
 	@Override
 	protected UserDetailsService userDetailsService() {
@@ -81,5 +85,19 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 		return new  InMemoryUserDetailsManager(users);
 		
 	}
+	
+	@Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+          .authorizeRequests()
+          .antMatchers("/securityNone")
+          .permitAll()
+          .anyRequest()
+          .authenticated()
+          .and()
+          .httpBasic()
+          .authenticationEntryPoint(authenticationEntryPoint);
 
+        http.addFilterAfter(new CustomFilter(), BasicAuthenticationFilter.class);
+    }
 }
