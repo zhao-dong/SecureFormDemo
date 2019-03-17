@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-
+/*
 @Service 
 public class MyUserDetailsService implements UserDetailsService {
 
@@ -34,7 +34,8 @@ public class MyUserDetailsService implements UserDetailsService {
 			user2.setPassword("fly");
 			user2.setUsername("Superman");
 			repo.save(user2);
-			*/
+			*/ 
+/*
 			throw new UsernameNotFoundException("User 404");
 		}
 		
@@ -44,3 +45,5 @@ public class MyUserDetailsService implements UserDetailsService {
 		return new UserPrincipal(user);
 	}
 }
+
+*/
