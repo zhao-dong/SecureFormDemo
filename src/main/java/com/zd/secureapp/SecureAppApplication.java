@@ -17,4 +17,31 @@ public class SecureAppApplication {
 		SpringApplication.run(SecureAppApplication.class, args);
 	}
 	
+	  @Bean
+	  DigestAuthenticationFilter digestFilter( DigestAuthenticationEntryPoint digestAuthenticationEntryPoint,
+	                                           UserCache digestUserCache, UserDetailsService userDetailsService )
+	  {
+	      DigestAuthenticationFilter filter = new DigestAuthenticationFilter();
+	      filter.setAuthenticationEntryPoint( digestAuthenticationEntryPoint );
+	      filter.setUserDetailsService( userDetailsService );
+	      filter.setUserCache( digestUserCache );
+	      return filter;
+	  }
+
+	  @Bean
+	  UserCache digestUserCache() throws Exception
+	  {
+	      return new SpringCacheBasedUserCache( new ConcurrentMapCache( "digestUserCache" ) );
+	  }
+
+	  
+	  @Bean
+	  DigestAuthenticationEntryPoint digestAuthenticationEntry()
+	  {
+	      DigestAuthenticationEntryPoint digestAuthenticationEntry = new CustomDigestAuthenticationEntryPoint();
+	      digestAuthenticationEntry.setRealmName( "XXX.COM" );
+	      digestAuthenticationEntry.setKey( "XXX" );
+	      digestAuthenticationEntry.setNonceValiditySeconds( 60 );
+	      return digestAuthenticationEntry;
+	  } 
 }
