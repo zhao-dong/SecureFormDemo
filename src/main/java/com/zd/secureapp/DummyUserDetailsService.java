@@ -14,6 +14,8 @@ public class DummyUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		
+		System.out.println("loadUserByNsername!!!!!");
 		return new User(username, "pwd", Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
 	}
 
